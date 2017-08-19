@@ -57,14 +57,22 @@ with open('../data/wiki.csv', 'rb') as csvfile:
             break
         count += 1
 
+# training
 
-url = "https://api.chui.ai/v1/identify"
+training_url = "https://api.chui.ai/v1/train"
+data = {
+    "collection_id": collection_id
+}
+training_response = requests.post(training_url, data=json.dumps(data), headers=headers)
+print training_response.json()
+
+identify_url = "https://api.chui.ai/v1/identify"
 
 data = {
     "img": base64.b64encode(open('mrauch.jpg', 'rb').read()),
     "collection_id": collection_id
 }
 
-r = requests.post(url, data=json.dumps(data), headers=headers)
+identify_response = requests.post(identify_url, data=json.dumps(data), headers=headers)
 
-print r.json()
+print identify_response.json()
