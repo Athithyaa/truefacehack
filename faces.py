@@ -19,8 +19,8 @@ img = cv2.imread('frame22.jpg')
 for face in data['faces']:
 	x1 = int(face['bounding_box'][0])
 	x2 = int(face['bounding_box'][1])
-	y1 = int(face['bounding_box'][2])
-	y2 = int(face['bounding_box'][3])
+	y1 = int(face['bounding_box'][2]) - x2
+	y2 = int(face['bounding_box'][3]) - y1
 	image_patch = img[x1:x2, y1:y2]
-	# print  image_patch.shape
-	cv2.imwrite("face.png", image_patch)
+	print  image_patch.shape
+	# cv2.imwrite("face.png", image_patch)
