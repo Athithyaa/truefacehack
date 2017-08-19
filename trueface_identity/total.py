@@ -2,7 +2,7 @@
 import requests
 import base64
 import json
-
+import time
 
 #Creating a colelction
 headers = {
@@ -14,7 +14,7 @@ url = "https://api.chui.ai/v1/collection"
 
 data = {
   "name":"Celebrities",
-  "unknowns":"false"
+  "unknowns":False
 }
 
 r  = requests.post(url,data=json.dumps(data),headers=headers)
@@ -24,14 +24,7 @@ print r.content
 temp = json.loads(r.content)
 collection_id = str(temp['data']['collection_id'])
 
-
 #Adding the first profile
-headers = {
-  "x-api-key":"k9smH5hhw3J2joOc6cIv8TO5t8iudeI3llnr34D2",
-  "Content-Type":"application/json",
-
-}
-
 url = "https://api.chui.ai/v1/enroll"
 
 data = {
@@ -40,12 +33,13 @@ data = {
   "img2":base64.b64encode(open('2.jpg','rb').read()),
   "img3":base64.b64encode(open('3.jpg','rb').read()),
   "name":"Emilia Clarke",
-  "collection_id":collection_id
+  #"collection_id":collection_id
+
 }
 
-r  = requests.post(url,data=json.dumps(data),headers=headers)
-print r.json()
-enroll_id = str(r.json()['data']['enrollment_id'])
+r1  = requests.post(url,data=json.dumps(data),headers=headers)
+r1 = r1.json()
+print r1
 
 # Adding the Second profile
 
@@ -54,22 +48,69 @@ data = {
   "img1":base64.b64encode(open('11.jpg','rb').read()),
   "img2":base64.b64encode(open('13.jpg','rb').read()),
   "name":"Lord of the Rings Lady",
+}
+
+r2  = requests.post(url,data=json.dumps(data),headers=headers)
+r2 = r2.json()
+
+
+
+#update enrollment with collections
+
+
+url = "https://api.chui.ai/v1/collection"
+
+
+#profile 1
+data = {
+  "enrollment_id":r1['data']['enrollment_id'],
+  "collection_id":collection_id,
+
+}
+
+r  = requests.put(url,data=json.dumps(data),headers=headers)
+
+
+print r.text
+
+
+#profile 2
+
+data = {
+  "enrollment_id":r2['data']['enrollment_id'],
+  "collection_id":collection_id,
+
+}
+
+r  = requests.put(url,data=json.dumps(data),headers=headers)
+
+print r.text
+
+
+############################################
+
+
+url = "https://api.chui.ai/v1/train"
+
+data = {
   "collection_id":collection_id
 }
 
 r  = requests.post(url,data=json.dumps(data),headers=headers)
+
 print r.json()
 
-url = "https://api.chui.ai/v1/match"
+time.sleep(15)
+
+
+
+url = "https://api.chui.ai/v1/identify"
 
 data = {
   "img":base64.b64encode(open('face1.png','rb').read()),
-  "id":enroll_id
+  "collection_id":collection_id
 }
 
 r  = requests.post(url,data=json.dumps(data),headers=headers)
 
 print r.json()
-
-
-
