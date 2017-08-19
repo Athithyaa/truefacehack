@@ -10,11 +10,11 @@ headers = {
 
 url = "https://api.chui.ai/v1/facedetect"
 
-r  = requests.post(url,data=open('frames/frame22.jpg','rb').read(),headers=headers)
+r  = requests.post(url,data=open('dany.jpg','rb').read(),headers=headers)
 
 data = r.json()
 
-img = cv2.imread('frames/frame22.jpg')
+img = cv2.imread('dany.jpg')
 
 count = 1
 for face in data['faces']:
