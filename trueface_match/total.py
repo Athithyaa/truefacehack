@@ -45,6 +45,8 @@ data = {
 
 r  = requests.post(url,data=json.dumps(data),headers=headers)
 print r.json()
+enroll_id = str(r.json()['data']['enrollment_id'])
+
 # Adding the Second profile
 
 data = {
@@ -58,11 +60,11 @@ data = {
 r  = requests.post(url,data=json.dumps(data),headers=headers)
 print r.json()
 
-url = "https://api.chui.ai/v1/identify"
+url = "https://api.chui.ai/v1/match"
 
 data = {
   "img":base64.b64encode(open('face1.png','rb').read()),
-  "collection_id":collection_id
+  "id":enroll_id
 }
 
 r  = requests.post(url,data=json.dumps(data),headers=headers)
