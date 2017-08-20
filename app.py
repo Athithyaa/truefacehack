@@ -138,6 +138,7 @@ def readPoster(poster_url):
     data = r.json()
     count = 0
     img = cv2.imread(path)
+    print data,name
     try:
         for face in data['faces']:
             x1 = int(face['bounding_box'][0])
@@ -151,7 +152,7 @@ def readPoster(poster_url):
             count += 1
     except:
         pass
-    return path
+
 
 def scandirs(path):
     for root, dirs, files in os.walk(path):
@@ -163,7 +164,7 @@ def scandirs(path):
 
 def readVideo(you_url):
     yt = YouTube(you_url)
-    framesPersecond = 100
+    framesPersecond = 300
 
     yt.set_filename('vid1')
     size = len(yt.get_videos())
@@ -272,7 +273,7 @@ def readVideo(you_url):
             ind += 1
     else:
         ind2 = 1
-        success_items = random.sample(range(1, len(success_path)), 3)
+        success_items = random.sample(range(0, len(success_path)), 3)
         for item in success_items:
             img = cv2.imread(success_path[item])
             cv2.imwrite("static/img/" + str(ind2) + ".jpg", img)
