@@ -10,9 +10,14 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 
-@app.route('/')
+@app.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('forms/home.html')
+    form = HomeForm(request.form)
+    if request.method == 'POST' and form.validate():
+        youtubelink = form.name.data
+        print(youtubelink)
+        return render_template('forms/home.html', form=form)
+    return render_template('forms/home.html', form=form)
 
 
 @app.route('/about')

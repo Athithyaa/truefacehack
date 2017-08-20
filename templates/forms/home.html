@@ -1,9 +1,11 @@
-% extends 'layouts/main.html' %}
+{% extends 'layouts/main.html' %}
 {% block title %}Home{% endblock %}
 {% block content %}
-  <form method="post" class="form">
+  <form method="post" class="form" >
+    <h4>Paste a YouTube link below </h4>
+    <br/>
     {{ form.name(class_ = 'form-control first-input', placeholder = form.name.label.text, required = true, autofocus = true) }}
-    {{ form.password(class_ = 'form-control last-input', placeholder = form.password.label.text, required = true) }}
-    <input type="submit" value="Submit" class="btn btn-primary btn-lg btn-block" disabled>
+    <br/>
+    <input type="submit" value="Submit" class="btn btn-primary btn-lg">
   </form>
 {% endblock %}
