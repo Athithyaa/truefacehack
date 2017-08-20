@@ -10,14 +10,13 @@ headers = {
     "Content-Type": "application/json",
 }
 
-
 url = "https://api.chui.ai/v1/identify"
 
 data = {
-    "img":base64.b64encode(open('trueface_identity/mrauch.jpg','rb').read()),
-    "collection_id":"ahBzfmNodWlzcGRldGVjdG9ychcLEgpDb2xsZWN0aW9uGICAgMDjsKkJDA"
+    "img": base64.b64encode(open('trueface_identity/mrauch.jpg', 'rb').read()),
+    "collection_id": "ahBzfmNodWlzcGRldGVjdG9ychcLEgpDb2xsZWN0aW9uGICAgMDjsKkJDA"
 }
 
-r  = requests.post(url,data=json.dumps(data),headers=headers)
+r = requests.post(url, data=json.dumps(data), headers=headers)
 
 print r.json()
