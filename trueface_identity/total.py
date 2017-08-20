@@ -3,6 +3,7 @@ import requests
 import base64
 import json
 import csv
+from time import sleep
 
 # Creating a colelction
 headers = {
@@ -53,7 +54,8 @@ with open('../data/wiki.csv', 'rb') as csvfile:
         collection_response = requests.put(update_collection_url, data=json.dumps(update_collection_data),
                                            headers=headers)
         print collection_response.json()
-        if count == 100:
+        sleep(0.5)
+        if count == 80:
             break
         count += 1
 
