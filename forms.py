@@ -7,3 +7,6 @@ from wtforms.validators import DataRequired, EqualTo, Length
 
 class HomeForm(Form):
     name = StringField('YouTube Link', [DataRequired()])
+
+class PosterForm(Form):
+    name = StringField('Poster Link', [DataRequired()])
