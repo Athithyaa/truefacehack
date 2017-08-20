@@ -4,3 +4,4 @@ truefacehack.iml
 data/
 frames/
 tmp/
+*.pyc
