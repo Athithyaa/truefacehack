@@ -5,7 +5,7 @@ import base64
 import os
 import random
 import requests
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 from logging import Formatter, FileHandler
 from pytube import YouTube
 from time import sleep
@@ -18,6 +18,83 @@ from forms import *
 app = Flask(__name__)
 
 app.config.from_object('config')
+
+def validate():
+
+    # Camera 0 is the integrated web cam on my netbook
+    camera_port = 0
+
+    #Number of frames to throw away while the camera adjusts to light levels
+    ramp_frames = 30
+
+    # Now we can initialize the camera capture object with the cv2.VideoCapture class.
+    # All it needs is the index to a camera port.
+    camera = cv2.VideoCapture(camera_port)
+
+    # Captures a single image from the camera and returns it in PIL format
+    def get_image():
+     # read is the easiest way to get a full image out of a VideoCapture object.
+     retval, im = camera.read()
+     return im
+
+    # Ramp the camera - these frames will be discarded and are only used to allow v4l2
+    # to adjust light levels, if necessary
+    for i in xrange(ramp_frames):
+     temp = get_image()
+    print("Taking image...")
+    # Take the actual image we want to keep
+    camera_capture = get_image()
+    file = "test_image.png"
+    # A nice feature of the imwrite method is that it will automatically choose the
+    # correct format based on the file extension you provide. Convenient!
+    cv2.imwrite(file, camera_capture)
+
+    # You'll want to release the camera, otherwise you won't be able to create a new
+    # capture object until your script exits
+     # del(camera)
+
+
+    import requests
+    import json
+    import os
+
+    headers = {
+        "x-api-key": "k9smH5hhw3J2joOc6cIv8TO5t8iudeI3llnr34D2",
+        "Content-Type": "image/jpeg",
+
+    }
+
+    url = "https://api.chui.ai/v1/facedetect"
+
+    r = requests.post(url, data=open('test_image.png', 'rb').read(), headers=headers)
+
+    data = r.json()
+
+
+
+    try:
+        if data['msg'] != 'no face detected':
+            url = "https://api.chui.ai/v1/spdetect"
+
+            r  = requests.post(url,data=open('test_image.png','rb').read(),headers=headers)
+
+            if  r.json()['data']['class'] == 'fake':
+                flash('Not Authorized')
+                return False
+            else:
+                flash('Authorized')
+                return True
+        else:
+            flash('Not Authorized')
+            return False
+    except:
+        flash('Not Authorized')
+        return False
+
+    try:
+        os.remove('test_image.png')
+    except OSError:
+        pass
 
 def readPoster(poster_url):
     path = 'static/img/poster.jpg'
@@ -204,6 +281,7 @@ def readVideo(you_url):
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    flash('Welcome!')
     form = HomeForm(request.form)
     images = ['/static/img/obama1.png', '/static/img/obama1.png', '/static/img/obama1.png']
     if request.method == 'POST':
@@ -228,7 +306,11 @@ def poster():
 
 @app.route('/about')
 def about():
-    return render_template('pages/placeholder.about.html')
+    auth = validate()
+    if auth == True:
+        return render_template('pages/placeholder.about.html')
+    else:
+        return render_template('pages/empty.html')
 
 
 @app.errorhandler(500)
