@@ -7,8 +7,8 @@ from time import sleep
 
 
 collection_id = "ahBzfmNodWlzcGRldGVjdG9ychcLEgpDb2xsZWN0aW9uGICAgMDjsKkJDA"
-start_count  = 81
-final_count = 160
+start_count  = 161
+final_count = 600
 
 # Adding the first profile
 headers = {
