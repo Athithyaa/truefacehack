@@ -8,4 +8,12 @@
     <br/>
     <input type="submit" value="Submit" class="btn btn-primary btn-lg">
   </form>
+  <br/>
+  <div class="container">
+    <div class="row">
+      {% for img in images %}
+      <img src="{{ img }}" class="col-sm-4 img-rounded">
+      {% endfor %}
+    </div>
+  </div>
 {% endblock %}
