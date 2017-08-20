@@ -7,7 +7,7 @@ from time import sleep
 
 # Creating a colelction
 headers = {
-    "x-api-key": "k9smH5hhw3J2joOc6cIv8TO5t8iudeI3llnr34D2",
+    "x-api-key": "0a4Vb652vN8fRvRB4oalu3veppkte6847k8RQqGd",
     "Content-Type": "application/json",
 }
 
@@ -27,7 +27,7 @@ collection_id = str(temp['data']['collection_id'])
 
 # Adding the first profile
 headers = {
-    "x-api-key": "k9smH5hhw3J2joOc6cIv8TO5t8iudeI3llnr34D2",
+    "x-api-key": "0a4Vb652vN8fRvRB4oalu3veppkte6847k8RQqGd",
     "Content-Type": "application/json",
 }
 
