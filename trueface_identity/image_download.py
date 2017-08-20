@@ -17,7 +17,7 @@ with open('../data/wiki.csv', 'rb') as csvfile:
     csvreader = csv.reader(csvfile, delimiter=',')
     for row in csvreader:
 
-        if file_count < 25:  
+        if file_count < 50:  
             celeb_details = []     
             celebrity_name = row[0]
             file_count = file_count + 1
