@@ -51,13 +51,14 @@ with open('../data/wiki.csv', 'rb') as csvfile:
                 "enrollment_id": enroll_response['data']['enrollment_id'],
                 "collection_id": collection_id,
             }
-        collection_response = requests.put(update_collection_url, data=json.dumps(update_collection_data),
-                                           headers=headers)
-        print collection_response.json()
-        sleep(0.5)
-        if count == 80:
+            collection_response = requests.put(update_collection_url, data=json.dumps(update_collection_data),
+                                               headers=headers)
+            print collection_response.json()
+            sleep(0.5)
+            count += 1
+
+        if count == 2:
             break
-        count += 1
 
 # training
 
@@ -67,6 +68,8 @@ data = {
 }
 training_response = requests.post(training_url, data=json.dumps(data), headers=headers)
 print training_response.json()
+
+sleep(15)
 
 identify_url = "https://api.chui.ai/v1/identify"
 
